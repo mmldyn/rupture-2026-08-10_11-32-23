@@ -18,10 +18,10 @@ Welcome to the development progress repository! Below is the detailed breakdown 
 | | **Time Manager** | Sistem Pemilihan Cuaca, dan Waktu | 🟢 Selesai |
 | | **Cloud Generator** | Awan 3D Volumetrik | 🟢 Selesai |
 | | **Audio Manager** | Gempa Berlangsung | 🟢 Selesai |
-| **August 24** | **Kompas Navigasi** | Manipulasi Y Point dan UV Rect | ⏳ Mendatang |
-| | **MiniMap** | Interaktif Minimap | ⏳ Mendatang |
-| | **Guide Evakuasi** | Lines ke Titik Evakuasi | ⏳ Mendatang |
-| | **Partikel Debu** | Debu dengan Deteksi Physics | ⏳ Mendatang |
+| **August 24** | **Kompas Navigasi** | Manipulasi Y Point dan UV Rect |  🟢 Selesai  |
+| | **MiniMap** | Interaktif Minimap |  🟢 Selesai |
+| | **Guide Evakuasi** | Lines ke Titik Evakuasi |  🟢 Selesai  |
+| | **Partikel Debu** | Debu dengan Deteksi Physics |  🟢 Selesai  |
 
 ---
 
