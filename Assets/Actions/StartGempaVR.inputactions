@@ -1,0 +1,45 @@
+{
+    "name": "StartGempaVR",
+    "maps": [
+        {
+            "name": "Mulai Gempa",
+            "id": "ec62e32d-38b6-478c-8cb8-63e0ad97c480",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "df3590f6-7efd-41bf-b6c0-122b5e0b96ea",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f6d4c730-997e-42e9-80d3-05991ea0348a",
+                    "path": "<OculusTouchController>/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "57e53af7-05c8-44ad-8800-a9dbaf01c086",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

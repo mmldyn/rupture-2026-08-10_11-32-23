@@ -6,7 +6,15 @@ using System.Collections.Generic;
 public class NavMeshGPS : MonoBehaviour
 {
     [Header("Target Evakuasi")]
+    [Tooltip("DEPRECATED - dibiarkan supaya referensi lama tidak hilang, tapi tidak dipakai lagi kalau Player VR/PC di bawah sudah diisi")]
     public Transform player;
+
+    [Tooltip("Transform pemain versi PC (biasanya Main Camera di Player_Dummy_Rig)")]
+    public Transform playerPC;
+
+    [Tooltip("Transform pemain versi VR (biasanya Main Camera di XR Origin (XR Rig))")]
+    public Transform playerVR;
+
     public Transform titikKumpul;
     
     [Header("Referensi Sistem")]
@@ -34,7 +42,10 @@ public class NavMeshGPS : MonoBehaviour
 
     void Update()
     {
-        if (player == null || titikKumpul == null) return;
+        // Pilih otomatis: pakai Transform yang aktif di Hierarchy (gameObject-nya menyala)
+        Transform playerAktif = TentukanPlayerAktif();
+
+        if (playerAktif == null || titikKumpul == null) return;
 
         if (earthquakeSimulator == null || earthquakeSimulator.isQuaking)
         {
@@ -45,11 +56,12 @@ public class NavMeshGPS : MonoBehaviour
         garisVisual.enabled = true;
 
         NavMeshHit hitPlayer, hitKumpul;
-        bool posisiPlayerValid = NavMesh.SamplePosition(player.position, out hitPlayer, 5.0f, NavMesh.AllAreas);
+        bool posisiPlayerValid = NavMesh.SamplePosition(playerAktif.position, out hitPlayer, 5.0f, NavMesh.AllAreas);
         bool posisiKumpulValid = NavMesh.SamplePosition(titikKumpul.position, out hitKumpul, 5.0f, NavMesh.AllAreas);
 
         if (!posisiPlayerValid || !posisiKumpulValid)
         {
+            Debug.Log($"<color=magenta>[GPS Debug]</color> Player Valid: {posisiPlayerValid} | Posisi Player: {playerAktif.position} | Kumpul Valid: {posisiKumpulValid} | Posisi Kumpul: {titikKumpul.position}");
             garisVisual.positionCount = 0;
             return;
         }
@@ -64,6 +76,26 @@ public class NavMeshGPS : MonoBehaviour
         {
             garisVisual.positionCount = 0;
         }
+    }
+
+    /// <summary>
+    /// Menentukan Transform player mana yang harus dipakai: prioritaskan yang
+    /// GameObject-nya benar-benar aktif di Hierarchy saat ini (VR atau PC).
+    /// Kalau keduanya kosong, fallback ke field 'player' lama (kompatibilitas).
+    /// </summary>
+    private Transform TentukanPlayerAktif()
+    {
+        if (playerVR != null && playerVR.gameObject.activeInHierarchy)
+            return playerVR;
+
+        if (playerPC != null && playerPC.gameObject.activeInHierarchy)
+            return playerPC;
+
+        // Fallback kalau field VR/PC belum diisi sama sekali
+        if (player != null)
+            return player;
+
+        return null;
     }
 
     void BuatLengkunganSpline()

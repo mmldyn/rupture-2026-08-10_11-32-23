@@ -1,40 +1,56 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractor : MonoBehaviour
 {
     [Header("Pengaturan Interaksi")]
     [Tooltip("Jarak maksimal tangan/mata bisa menjangkau benda (dalam meter)")]
     public float interactRange = 3f;
-    
-    [Tooltip("Masukkan Main Camera dari Player ke sini")]
-    public Camera playerCamera;
+
+    [Tooltip("Sumber arah ray: Main Camera (PC) atau Right Controller (VR)")]
+    public Transform rayOrigin;
+
+    [Header("Input PC (opsional, kosongkan di instance VR)")]
+    public bool gunakanInputPC = true;
+
+    [Header("Input VR (opsional, kosongkan di instance PC)")]
+    [Tooltip("Contoh: XRI RightHand Interaction/Activate, atau tombol grip/trigger yang Anda pakai")]
+    public InputActionReference tombolInteraksiVR;
+
+    void Reset()
+    {
+        // fallback supaya field lama (playerCamera) tidak hilang total kalau ada referensi lama
+        if (rayOrigin == null && GetComponent<Camera>() != null)
+            rayOrigin = transform;
+    }
 
     void Update()
     {
-        // Membuat garis laser imajiner lurus ke depan dari tengah kamera
-        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        if (rayOrigin == null) return;
+
+        Ray ray = new Ray(rayOrigin.position, rayOrigin.forward);
         RaycastHit hit;
 
-        // Mengecek apakah laser menabrak sesuatu dalam jarak interactRange
         if (Physics.Raycast(ray, out hit, interactRange))
         {
-            // Mengecek apakah benda yang ditabrak laser memiliki script "InteractableObject"
             InteractableObject interactable = hit.collider.GetComponentInParent<InteractableObject>();
 
             if (interactable != null)
             {
-                // Nanti di sini kita bisa hubungkan untuk memunculkan teks UI (Misal: "Tekan E untuk Ambil Tas")
-                Debug.DrawLine(ray.origin, hit.point, Color.green); // Bantuan visual (Garis hijau) di jendela Scene
+                Debug.DrawLine(ray.origin, hit.point, Color.green);
 
-                // Jika tombol Klik Kiri Mouse atau huruf 'E' ditekan
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E))
+                bool inputPC = gunakanInputPC && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E));
+                bool inputVR = tombolInteraksiVR != null && tombolInteraksiVR.action != null
+                               && tombolInteraksiVR.action.WasPressedThisFrame();
+
+                if (inputPC || inputVR)
                 {
                     interactable.Interact();
                 }
             }
             else
             {
-                Debug.DrawLine(ray.origin, hit.point, Color.red); // Garis merah jika benda tidak bisa diinteraksi
+                Debug.DrawLine(ray.origin, hit.point, Color.yellow);
             }
         }
     }
