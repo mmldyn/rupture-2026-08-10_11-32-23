@@ -14,7 +14,7 @@ Welcome to the development progress repository! Below is the detailed breakdown 
 | | **Konversi SR ke UM** | Formula: $UM = (SR - 3.0) \times 0.075$ | 🟢 Selesai |
 | **August 16** | **Player Health** | Berdasarkan Velocity dan Massa | 🟢 Selesai |
 | | **Mekanika DCHO** | Drop, Cover, Hold On dan Safe Zone | 🟢 Selesai |
-| | **Interaksi Universal** | Raycast System | 🔵 Dalam Proses |
+| | **Interaksi Universal** | Raycast System | 🟢 Selesai  |
 | | **Time Manager** | Sistem Pemilihan Cuaca, dan Waktu | 🟢 Selesai |
 | | **Cloud Generator** | Awan 3D Volumetrik | 🟢 Selesai |
 | | **Audio Manager** | Gempa Berlangsung | 🟢 Selesai |
